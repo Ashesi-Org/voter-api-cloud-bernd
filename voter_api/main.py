@@ -5,7 +5,7 @@ import functions_framework
 from firebase_admin import firestore, credentials
 from flask import Flask, request, jsonify
 
-cred = credentials.Certificate('voter-api-382611-firebase-adminsdk-w75cs-2c06d486af.json')
+cred = credentials.Certificate('key.json')
 firebase_admin.initialize_app(cred)
 
 app = Flask(__name__)
@@ -38,7 +38,6 @@ def main(request):
 
 
 # This function queries a voter's record
-@app.route('/students/get_voter', methods=['GET'])
 def get_voter():
     student_id = request.get_json()['student_id']
     voter_record = database.collection('students').document(student_id)
@@ -51,7 +50,6 @@ def get_voter():
 
 
 # This function creates a voter
-@app.route('/students/create_voter', methods=['POST'])
 def create_voter():
     voter_records = request.get_json()
 
@@ -67,7 +65,6 @@ def create_voter():
 
 
 # This function is responsible for updating a voter's record
-@app.route('/students/update_voter', methods=['POST'])
 def update_voter():
     record = json.loads(request.data)
     voter_id = record['student_id']
@@ -90,7 +87,6 @@ def update_voter():
 
 
 # This function is responsible for deleting a voter from the records
-@app.route('/students/delete_voter', methods=['DELETE'])
 def delete_voter():
     record = json.loads(request.data)
     voter_id = record['student_id']
@@ -109,7 +105,6 @@ def delete_voter():
 
 
 # This function is responsible for querying an election
-@app.route('/elections/get_election', methods=['GET'])
 def get_election():
     record = json.loads(request.data)
     election_id = request.args.get('election_id')
@@ -134,7 +129,6 @@ def get_election():
 
 
 # This function is responsible for creating an election
-@app.route('/elections/create_election', methods=['POST'])
 def create_election():
     record = json.loads(request.data)
 
@@ -157,7 +151,6 @@ def create_election():
 
 
 # This function is responsible for deleting an election
-@app.route('/elections/delete_election', methods=['DELETE'])
 def delete_election():
     record = json.loads(request.data)
     election_id = record['election_id']
@@ -173,7 +166,6 @@ def delete_election():
 
 
 # This function is responsible for the voting process
-@app.route('/elections/vote', methods=['PATCH'])
 def vote():
     record = json.loads(request.data)
     election_id = record['election_id']
